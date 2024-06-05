@@ -1,0 +1,28 @@
+- Run "pyside6-designer" to edit the GUI.
+- Open "interface.ui" then change the design of the GUI.
+
+- Run "pyside6-rcc -o resources_rc.py resources.qrc" to convert resources icons/images to python code.
+
+- Run "python3 main.py" to lauch the GUI app.
+
+
+        self.frame_Footer = QFrame(self.centralwidget)
+        self.frame_Footer.setObjectName(u"frame_Footer")
+        self.frame_Footer.setFrameShape(QFrame.Shape.StyledPanel)
+        self.frame_Footer.setFrameShadow(QFrame.Shadow.Raised)
+        self.verticalLayout_2 = QVBoxLayout(self.frame_Footer)
+        self.verticalLayout_2.setObjectName(u"verticalLayout_2")
+        self.WebEngineContainer = QWidget(self.frame_Footer)
+        self.WebEngineContainer.setObjectName(u"WebEngineContainer")
+        self.verticalLayout_5 = QVBoxLayout(self.WebEngineContainer)
+        self.verticalLayout_5.setSpacing(0)
+        self.verticalLayout_5.setObjectName(u"verticalLayout_5")
+        self.verticalLayout_5.setContentsMargins(0, 0, 0, 0)
+        self.WebView = QWebEngineView(self.WebEngineContainer)
+        self.WebView.setObjectName(u"WebView")
+
+        self.verticalLayout_5.addWidget(self.WebView)
+
+        self.verticalLayout_2.addWidget(self.WebEngineContainer)
+
+        self.verticalLayout.addWidget(self.frame_Footer)
