@@ -31,6 +31,7 @@ import signal
 
 import base64
 import numpy as np
+import json
 
 ################################################################################################
 # Import the generated UI
@@ -503,45 +504,105 @@ class UpdateMapWorker(QThread):
         self.map = folium.Map(location=self.initial_location, zoom_start=17)
         self.marker = folium.Marker(location=self.initial_location)
         self.marker.add_to(self.map)
+        self.filter_coordinates = []
+        self.gps_coordinates = []
+        self.SERVER_ADDRESS = '192.168.2.171'
+        self.FILTER_PORT = 3333
+        self.GPS_PORT = 4444
+
 
     def run(self):
         self.ThreadActive = True
         # self.map = folium.Map(location=[10.87043, 106.80196], zoom_start=17)
+        self.filter_sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        print('Filter Socket created')
+        self.filter_sock.connect((self.SERVER_ADDRESS, self.FILTER_PORT))
+        self.gps_sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        print('GPS Socket created')
+        self.gps_sock.connect((self.SERVER_ADDRESS, self.GPS_PORT))
+        while self.ThreadActive:
+            ### GPS ###
+            self.gps_request = 'GET_GPS'
+            # print(f'Sending request: {request}')
+            self.gps_sock.sendall(self.gps_request.encode())
 
-        # Read GPS coordinates from CSV file
-        with open('route_points.csv', 'r') as file:
-            csv_reader = csv.reader(file)
-            next(csv_reader)  # Skip the header row
-            coordinates = []
+            # Receive response from the server
+            gps_data = self.gps_sock.recv(1024)
+            gps_response = gps_data.decode()
+            # print(f'Received response: {response}')
 
-            for row in csv_reader:
-                try:
-                    latitude, longitude = map(float, row)
-                    coordinates.append((latitude, longitude))
-                except ValueError:
-                    print(f"Skipping invalid row: {row}")
+            # Parse the JSON data
+            try:
+                json_data = json.loads(gps_response)
+                self.gps_latitude = json_data['GPS_Lat']
+                self.gps_longitude = json_data['GPS_Long']
 
-        # Create a PolyLine object with the coordinates
-        polyline = folium.PolyLine(locations=coordinates)
+                print(f'GPS_Latitude: {self.gps_latitude}')
+                print(f'GPS_Longitude: {self.gps_longitude}')
 
-        for i in range(len(coordinates)):
-            if not self.ThreadActive:
-                break
+            except json.JSONDecodeError:
+                print('Error: Invalid JSON data received from the server')
+            self.gps_coordinates.append((self.gps_latitude, self.gps_longitude))
+            try:
+                with open('./GPS.csv', mode='a', newline='') as file:
+                    writer = csv.writer(file)
+                    writer.writerow(self.gps_coordinates[-1])
+            except:
+                with open('./GPS.csv', mode='w', newline='') as file:
+                    writer = csv.writer(file)
+                    writer.writerow(self.gps_coordinates[-1])
+            # Create a PolyLine object with the coordinates
+            folium.PolyLine(locations=self.gps_coordinates, color='blue').add_to(self.map)
 
-            m = copy(self.map)
 
-            # Add a PolyLine for the GPS points up to the current index
-            folium.PolyLine(locations=coordinates[:i+1], color='blue').add_to(m)
 
-            # Save map data to data object
+            ### Filter ###
+            self.filter_request = 'GET_JSON_DATA'
+            # print(f'Sending request: {request}')
+            self.filter_sock.sendall(self.filter_request.encode())
+
+            # Receive response from the server
+            data = self.filter_sock.recv(1024)
+            response = data.decode()
+            # print(f'Received response: {response}')
+
+            # Parse the JSON data
+            try:
+                json_data = json.loads(response)
+                self.speed = json_data['speed']
+                self.latitude = json_data['lat']
+                self.longitude = json_data['long']
+                self.heading = json_data['heading']
+
+                print(f'Speed: {self.speed*3.6} km/h')
+                print(f'Latitude: {self.latitude}')
+                print(f'Longitude: {self.longitude}')
+                print(f'Heading: {self.heading} degrees')
+
+            except json.JSONDecodeError:
+                print('Error: Invalid JSON data received from the server')
+            self.filter_coordinates.append((self.latitude, self.longitude))
+            try:
+                with open('./Filter.csv', mode='a', newline='') as file:
+                    writer = csv.writer(file)
+                    writer.writerow(self.filter_coordinates[-1])
+            except:
+                with open('./Filter.csv', mode='w', newline='') as file:
+                    writer = csv.writer(file)
+                    writer.writerow(self.filter_coordinates[-1])
+            # Create a PolyLine object with the coordinates
+            folium.PolyLine(locations=self.filter_coordinates, color='red').add_to(self.map)
+
+                # Save map data to data object
             data = io.BytesIO()
-            m.save(data, close_file=False)
+            self.map.save(data, close_file=False)
 
             # Emit the map_updated signal with the updated map data
             self.MapUpdate.emit(data.getvalue())
 
             # Wait for 1 second before updating the next coordinate
             sleep(1)
+        self.sock.close()
         self.terminate()
 
     def stop(self):
