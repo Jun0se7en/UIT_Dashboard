@@ -15,14 +15,14 @@ from PyQt5.QtWidgets import QMainWindow, QApplication, QGraphicsColorizeEffect
 from PyQt5.QtGui import QFontDatabase, QPixmap, QImage
 from PyQt5.QtCore import QThread, QEvent, pyqtSignal
 
+import qdarktheme
+
 import folium
 
 import cv2
 import socket
 import pickle
 import struct
-
-from copy import copy
 
 import csv
 from time import sleep
@@ -48,13 +48,14 @@ class MainWindow(QMainWindow):
         ################################################################################################
         # Setup the flags for threads
         ################################################################################################
-        self.RunCamera = False
-        self.RunMapView = False
+        self.RunCamera = True
+        self.RunMapView = True
         self.RunOutputImage = True
 
         ################################################################################################
         # Setup the UI main window
         ################################################################################################
+        qdarktheme.setup_theme()
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
 
@@ -528,14 +529,12 @@ class UpdateMapWorker(QThread):
             if not self.ThreadActive:
                 break
 
-            m = copy(self.map)
-
             # Add a PolyLine for the GPS points up to the current index
-            folium.PolyLine(locations=coordinates[:i+1], color='blue').add_to(m)
+            folium.PolyLine(locations=coordinates[:i+1], color='blue').add_to(self.map)
 
             # Save map data to data object
             data = io.BytesIO()
-            m.save(data, close_file=False)
+            self.map.save(data, close_file=False)
 
             # Emit the map_updated signal with the updated map data
             self.MapUpdate.emit(data.getvalue())
