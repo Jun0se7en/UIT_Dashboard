@@ -51,6 +51,9 @@
     <property name="frameShadow">
      <enum>QFrame::Raised</enum>
     </property>
+    <property name="lineWidth">
+     <number>0</number>
+    </property>
     <layout class="QHBoxLayout" name="Header_Frame_Layout">
      <property name="spacing">
       <number>0</number>
@@ -84,6 +87,9 @@
        <property name="frameShadow">
         <enum>QFrame::Raised</enum>
        </property>
+       <property name="lineWidth">
+        <number>0</number>
+       </property>
        <layout class="QVBoxLayout" name="Header_Left_Layout">
         <property name="spacing">
          <number>0</number>
@@ -102,6 +108,9 @@
         </property>
         <item>
          <widget class="QLabel" name="lb_Left_Signal">
+          <property name="lineWidth">
+           <number>0</number>
+          </property>
           <property name="text">
            <string/>
           </property>
@@ -130,6 +139,9 @@
        <property name="frameShadow">
         <enum>QFrame::Raised</enum>
        </property>
+       <property name="lineWidth">
+        <number>0</number>
+       </property>
        <layout class="QVBoxLayout" name="Header_Title_Layout">
         <property name="spacing">
          <number>0</number>
@@ -148,6 +160,9 @@
         </property>
         <item>
          <widget class="QLabel" name="lb_Title">
+          <property name="lineWidth">
+           <number>0</number>
+          </property>
           <property name="text">
            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:36pt; font-weight:600; color:#0000ff;&quot;&gt;UIT CAR DASHBOARD&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
@@ -173,6 +188,9 @@
        <property name="frameShadow">
         <enum>QFrame::Raised</enum>
        </property>
+       <property name="lineWidth">
+        <number>0</number>
+       </property>
        <layout class="QVBoxLayout" name="Header_Right_Layout">
         <property name="spacing">
          <number>0</number>
@@ -191,6 +209,9 @@
         </property>
         <item>
          <widget class="QLabel" name="lb_Right_Signal">
+          <property name="lineWidth">
+           <number>0</number>
+          </property>
           <property name="text">
            <string/>
           </property>
@@ -228,6 +249,9 @@
     <property name="frameShadow">
      <enum>QFrame::Raised</enum>
     </property>
+    <property name="lineWidth">
+     <number>0</number>
+    </property>
     <layout class="QVBoxLayout" name="Webview_Layout">
      <property name="spacing">
       <number>0</number>
@@ -247,6 +271,21 @@
      <item>
       <widget class="QWidget" name="WebViewContainer" native="true">
        <layout class="QVBoxLayout" name="verticalLayout_2">
+        <property name="spacing">
+         <number>0</number>
+        </property>
+        <property name="leftMargin">
+         <number>0</number>
+        </property>
+        <property name="topMargin">
+         <number>0</number>
+        </property>
+        <property name="rightMargin">
+         <number>0</number>
+        </property>
+        <property name="bottomMargin">
+         <number>0</number>
+        </property>
         <item alignment="Qt::AlignLeft|Qt::AlignVCenter">
          <widget class="QLabel" name="lb_Web">
           <property name="text">
@@ -280,6 +319,9 @@
     <property name="frameShadow">
      <enum>QFrame::Raised</enum>
     </property>
+    <property name="lineWidth">
+     <number>0</number>
+    </property>
     <widget class="QFrame" name="Body_Left_Frame">
      <property name="geometry">
       <rect>
@@ -295,9 +337,30 @@
      <property name="frameShadow">
       <enum>QFrame::Raised</enum>
      </property>
+     <property name="lineWidth">
+      <number>0</number>
+     </property>
      <layout class="QVBoxLayout" name="verticalLayout_3">
+      <property name="spacing">
+       <number>0</number>
+      </property>
+      <property name="leftMargin">
+       <number>0</number>
+      </property>
+      <property name="topMargin">
+       <number>0</number>
+      </property>
+      <property name="rightMargin">
+       <number>0</number>
+      </property>
+      <property name="bottomMargin">
+       <number>0</number>
+      </property>
       <item>
        <widget class="QLabel" name="lb_Raw_Img">
+        <property name="lineWidth">
+         <number>0</number>
+        </property>
         <property name="text">
          <string>Raw_Img</string>
         </property>
@@ -322,6 +385,9 @@
      </property>
      <property name="frameShadow">
       <enum>QFrame::Raised</enum>
+     </property>
+     <property name="lineWidth">
+      <number>0</number>
      </property>
      <layout class="QGridLayout" name="gridLayout">
       <property name="leftMargin">
@@ -359,9 +425,30 @@
      <property name="frameShadow">
       <enum>QFrame::Raised</enum>
      </property>
+     <property name="lineWidth">
+      <number>0</number>
+     </property>
      <layout class="QVBoxLayout" name="verticalLayout">
+      <property name="spacing">
+       <number>0</number>
+      </property>
+      <property name="leftMargin">
+       <number>0</number>
+      </property>
+      <property name="topMargin">
+       <number>0</number>
+      </property>
+      <property name="rightMargin">
+       <number>0</number>
+      </property>
+      <property name="bottomMargin">
+       <number>0</number>
+      </property>
       <item>
        <widget class="QLabel" name="lb_Output_Img">
+        <property name="lineWidth">
+         <number>0</number>
+        </property>
         <property name="text">
          <string>Output_Img</string>
         </property>

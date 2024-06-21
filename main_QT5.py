@@ -15,7 +15,7 @@ from PyQt5.QtWidgets import QMainWindow, QApplication, QGraphicsColorizeEffect
 from PyQt5.QtGui import QFontDatabase, QPixmap, QImage
 from PyQt5.QtCore import QThread, QEvent, pyqtSignal
 
-import qdarktheme
+# import qdarktheme
 
 import folium
 
@@ -55,7 +55,7 @@ class MainWindow(QMainWindow):
         ################################################################################################
         # Setup the UI main window
         ################################################################################################
-        qdarktheme.setup_theme()
+        # qdarktheme.setup_theme()
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
 
